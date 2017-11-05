@@ -1,7 +1,3 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 # Imports
 import numpy as np
 import tensorflow as tf
@@ -26,7 +22,14 @@ class Model(object):
 def model_fn(features, labels, mode, frames = 1):
     model = Model(features["x"], [-1, frames, input_shape[0], input_shape[1], input_shape[2]])
 
-    #Downsample each frame.
+    
+    #For each frame, let's downsample to a single-channel image of smaller size.
+    #Then, we can look across frames.
+
+    #I want a 3d convolution that looks at RGB, treating each frame as a single channel.
+    #So, basically, batch size of batch_size*frames; 1 channel in and 1 channel out.
+
+
     model.add(tf.layers.conv3d,
         filters = 8,
         kernel_size = (1,5,5),
